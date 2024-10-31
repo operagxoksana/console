@@ -63,15 +63,18 @@ export class AllowanceHttpService extends HttpService {
     return allowances.grants;
   }
 
-  async paginateDeploymentGrantsForGrantee(address: string, cb: (page: DeploymentAllowanceResponse["grants"]) => Promise<void>) {
+  async paginateDeploymentGrants(
+    options: { side: "granter" | "grantee"; address: string; limit: number },
+    cb: (page: DeploymentAllowanceResponse["grants"]) => Promise<void>
+  ) {
     let nextPageKey: string | null;
 
     do {
       const response = this.extractData(
         await this.get<DeploymentAllowanceResponse>(
-          `cosmos/authz/v1beta1/grants/grantee/${address}`,
+          `cosmos/authz/v1beta1/grants/${options.side}/${options.address}`,
           nextPageKey && {
-            params: { "pagination.key": nextPageKey }
+            params: { "pagination.key": nextPageKey, "pagination.limit": options.limit }
           }
         )
       );
