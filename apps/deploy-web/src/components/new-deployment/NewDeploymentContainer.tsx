@@ -125,7 +125,7 @@ export const NewDeploymentContainer: FC = () => {
 
   return (
     <Layout isLoading={isLoadingTemplates} isUsingSettings isUsingWallet containerClassName="pb-0">
-      <div className="flex w-full items-center">{activeStep !== null && <CustomizedSteppers activeStep={activeStep} />}</div>
+      <div className="flex w-full items-center">{activeStep !== null && activeStep > 0 && <CustomizedSteppers activeStep={activeStep} />}</div>
 
       {activeStep === 0 && <TemplateList />}
       {activeStep === 1 && (
